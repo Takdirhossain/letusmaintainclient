@@ -95,7 +95,16 @@ const CountryPackages = () => {
   };
 
   const handalerazorpay = (formData) => {
-    const data = { amount: formData.packagePrices };
+    const data = {
+      name: formData.name,
+      email: formData.email,
+      amount: formData.packagePrices,
+      currency: formData.currency,
+      fulladdress: formData.fulladdress,
+      password: formData.password,
+      distance: formData.distance,
+      permission: formData.permission,
+    };
     axios
       .post("http://localhost:5000/order", data)
       .then((res) => {
@@ -115,8 +124,12 @@ const CountryPackages = () => {
         image: "https://i.ibb.co/gZ3JXLC/letus.png",
         description: "Welcome to letusmaintain.com happy to see you here",
         handler: function (response) {
-          console.log(response);
-        },
+          const anotherdata = {
+            name: "takdir"
+          }
+       axios.post("http://localhost:5000/another", anotherdata)  
+        }
+       
       };
       const rzp = new window.Razorpay(options);
       rzp.open();
@@ -128,44 +141,44 @@ const CountryPackages = () => {
       name: formData.name,
       email: formData.email,
       amount: formData.packagePrices,
-      currency:formData.currency,
+      currency: formData.currency,
       fulladdress: formData.fulladdress,
       password: formData.password,
       distance: formData.distance,
       permission: formData.permission,
-      
     };
+  
     try {
-      const stripe = await stripePromise;
-      const response = await fetch(
-        "http://localhost:5000/stripe",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
-
+      const response = await fetch("http://localhost:5000/stripe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+  
       const session = await response.json();
-
       console.log(session);
+  
+      const stripe = await stripePromise;
       const result = await stripe.redirectToCheckout({
         sessionId: session.id,
       });
+  
       if (result.error) {
         throw new Error(result.error.message);
       } else {
+        // Handle successful payment
+        
   
+        // Do something after successful payment and the second request
       }
     } catch (error) {
       console.error("Error:", error);
       // Handle error appropriately, e.g., display an error message to the user
-    } finally {
-      
     }
   };
+  
   const handalepaypal = (formData) => {
     console.log(formData);
   };

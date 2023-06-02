@@ -75,25 +75,26 @@ const Registation = () => {
       partnerId: randomNumber,
       phone: phone
     }
+    console.log(formData);
     
-    fetch("https://api.letusmaintain.com/registration", {
-      method: "POST",
-      headers: {
-          "content-type": "application/json",
-        },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-          console.log(data);
-        setLoading(false)
-        Swal.fire(
-          "Application Received",
-          `Your Channel Partner ID Is ${data.partnerId}`,
-          "success"
-        );
-        e.target.reset();
-      }).catch((error)=> console.log(error))
+    // fetch("https://api.letusmaintain.com/registration", {
+    //   method: "POST",
+    //   headers: {
+    //       "content-type": "application/json",
+    //     },
+    //   body: JSON.stringify(formData),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //       console.log(data);
+    //     setLoading(false)
+    //     Swal.fire(
+    //       "Application Received",
+    //       `Your Channel Partner ID Is ${data.partnerId}`,
+    //       "success"
+    //     );
+    //     e.target.reset();
+    //   }).catch((error)=> console.log(error))
     
   };
 
