@@ -20,6 +20,11 @@ import Enterprise from "./pages/Enterprise";
 import Individul from "./pages/Individul";
 import Blogs from "./pages/Blogs";
 import SingleBlog from "./pages/SingleBlog";
+import Dashboard from "./components/Dashboard";
+import Login from "./components/Login";
+import { useSelector } from "react-redux";
+
+
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -40,8 +45,12 @@ const router = createBrowserRouter([
   { path: "/regenterprise", element: <ClientReg /> },
   { path: "/Enterprise", element: <Enterprise /> },
   { path: "/Individul", element: <Individul /> },
+  { path: "/login", element: <Login /> },
+  {path:"/dashboard", element: <Dashboard/>}
 ]);
 const App = () => {
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  console.log(isLoggedIn);
   return <RouterProvider router={router} />;
 };
 

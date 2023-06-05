@@ -1,0 +1,55 @@
+/* Doing this for toggle */
+
+.sizeimg {
+    margin-left: 1.5rem;
+       height: 3rem;
+       width: auto;
+     }
+      
+     @media only screen and (max-width: 767px) {
+       .sizeimg {
+         height: 2.4rem;
+    
+       }
+     }
+     .ctr{
+       width: 100wh;
+       height: 85.6vh;
+     }
+     @media (max-width: 400px) {
+       .ctr {
+         text-align: center;
+       }
+       .custom-button {
+       padding: 0.3rem 0.5rem !important;
+       }
+     }
+    
+    
+     .rounded-img {
+       border-radius: 50%;
+     }
+     
+     .shadow-custom {
+       box-shadow: 0 8px 6px 4px rgba(0, 0, 0, 0.1), 0 5px 3px 4px rgba(0, 0, 0, 0.08);
+     }
+     .custom-button {
+       color: #ffffff;
+       border: 1px solid #000;
+       background-color: #000000;
+       display: inline-flex;
+       align-items: center;
+       padding: 0.5rem 1rem;
+       font-size: 1rem;
+       font-weight: 500;
+       border-radius: 0.375rem;
+     }
+     
+     .custom-button:hover {
+       color: #000000;
+       background-color: #ffffff;
+     }
+     
+     
+   
+     

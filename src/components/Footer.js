@@ -119,13 +119,13 @@ const Footer = () => {
                 </div>
                 <div className="modal-action">
                   <label htmlFor="my-modal-6" className="btn">
-                    Yay!
+                    Okey
                   </label>
                 </div>
               </div>
             </div>
           </a>
-          <Link to="/management">
+          <Link to="">
             <a className="footer-link">Management</a>
           </Link>
           <Link to="/priceing">
@@ -138,7 +138,7 @@ const Footer = () => {
             <input type="checkbox" id="my-modal-5" className="modal-toggle" />
             <div className="modal">
               <div className="modal-box w-11/12 max-w-5xl">
-                <h3 className="font-bold text-lg">Channel Partner Dashboard</h3>
+               <Link to="/login"> <h3 className="font-bold text-lg">Channel Partner Dashboard</h3></Link>
                 <h3 className="font-bold text-lg">Enterprise Dashboard</h3>
                 <h3 className="font-bold text-lg">Individual Dashboard</h3>
                 <div className="modal-action">
