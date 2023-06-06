@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
-function BankTransfer() {
+function BankTransfer({user}) {
+console.log(user);
   const handalesubmit = e => {
     e.preventDefault()
     const accountHolderName = e.target.accountHolderName.value 
@@ -11,10 +14,42 @@ function BankTransfer() {
     const ifscCode = e.target.ifscCode.value 
     const mobileNumber = e.target.mobileNumber.value 
     const bankaddress = e.target.bankaddress.value 
+    const data = { 
+      payment: {
+        paymenttype: "Bank Transfer",
+        rafferid: user.partnerId,
+        username: user.name,
+        accountHolderName: accountHolderName,
+        accountNumber: accountNumber,
+        bankName: bankName,
+        youraddress: youraddress,
+        swiftCode: swiftCode,
+        ifscCode: ifscCode,
+        mobileNumber: mobileNumber,
+        bankaddress: bankaddress,
+      },
+      
+    }
+    console.log(data);
+  fetch("http://localhost:5000/auth/userpayment", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  }).then(res => res.json())
+  .then(data => Swal.fire(
+    'Good job!',
+    'Payment Added success!',
+    'success'
+  ))
+  .catch(Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: 'Something went wrong!',
     
-    
-   console.log(accountHolderName, accountNumber,  bankName, youraddress, swiftCode, ifscCode, mobileNumber, bankaddress);
-    
+  }))
+  
   }
   return (
     <>
@@ -110,7 +145,37 @@ function BankTransfer() {
   );
 }
 
-function Paypal() {
+function Paypal({user}) {
+  const [paypal, setpaypal] = useState("")
+  const handaleclick =()=> {
+    const data = { 
+      payment: {
+        paymenttype: "Paypal",
+        rafferid: user.partnerId,
+        username: user.name,
+        paypal: paypal
+      },
+      
+    }
+    fetch("http://localhost:5000/auth/userpayment", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then(res => res.json())
+    .then(data => Swal.fire(
+      'Good job!',
+      'Payment Added success!',
+      'success'
+    ))
+    .catch(Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      
+    }))
+  }
   return (
     <div className="md:mt-6 mx-auto mt-6 ">
       <div className="w-full md:w-1/2 px-6 mb-4 shadow rounded-md p-6  ">
@@ -124,10 +189,12 @@ function Paypal() {
           className="w-full border rounded py-2 px-6 leading-tight focus:outline-none focus:shadow-outline"
           id="paypalDetails"
           type="text"
+          required 
+onChange={(e)=> setpaypal(e.target.value)}
           placeholder="Enter the PayPal Details"
         />
         <div className="text-center mt-3">
-          <button
+          <button onClick={handaleclick}
             type="submit"
             class="text-white bg-gray-900 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
           >
@@ -139,7 +206,37 @@ function Paypal() {
   );
 }
 
-function PaymentLink() {
+function PaymentLink({user}) {
+  const [paymentlink, setpaymentlink] = useState("")
+  const handaliclick =()=> {
+    const data = { 
+      payment: {
+        paymenttype: "paymentlink",
+        rafferid: user.partnerId,
+        username: user.name,
+        paymentlink: paymentlink
+      },
+      
+    }
+    fetch("http://localhost:5000/auth/userpayment", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then(res => res.json())
+    .then(data => Swal.fire(
+      'Good job!',
+      'Payment Added success!',
+      'success'
+    ))
+    .catch(Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      
+    }))
+  }
   return (
     <div className="md:mt-6 mx-auto mt-6">
       <div className="w-full md:w-1/2 px-6 mb-4 shadow rounded-md p-6">
@@ -152,11 +249,14 @@ function PaymentLink() {
         <input
           className="w-full border rounded py-2 px-6 leading-tight focus:outline-none focus:shadow-outline"
           id="paymentLink"
+          required 
+          onChange={e => setpaymentlink(e.target.value)}
           type="text"
           placeholder="Enter the Payment Link"
         />
         <div className="text-center mt-3">
           <button
+          onClick={handaliclick}
             type="submit"
             class="text-white bg-gray-900 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
           >
@@ -172,6 +272,7 @@ const Payout = () => {
   const [isBankTransferChecked, setIsBankTransferChecked] = useState(false);
   const [isPayPalChecked, setIsPayPalChecked] = useState(false);
   const [isPaymentLinkChecked, setIsPaymentLinkChecked] = useState(false);
+  const user = useSelector((state) => state.user.user);
 
   function handleBankTransferChange() {
     setIsBankTransferChecked(true);
@@ -253,9 +354,9 @@ const Payout = () => {
         </div>
       </div>
       <div className="flex">
-        {isBankTransferChecked && BankTransfer()}
-        {isPayPalChecked && Paypal()}
-        {isPaymentLinkChecked && PaymentLink()}
+        {isBankTransferChecked && <BankTransfer />}
+        {isPayPalChecked && <Paypal user={user}/>}
+        {isPaymentLinkChecked && <PaymentLink user={user}/>}
       </div>
     </>
   );

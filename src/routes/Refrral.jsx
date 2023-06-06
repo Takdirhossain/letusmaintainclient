@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 const Refrral = () => {
   const user = useSelector((state) => state.user.user);
+  console.log(user);
   const  [data, setData] = useState([])
   const [filter, setfilter] = useState([])
   useEffect(()=>  {
