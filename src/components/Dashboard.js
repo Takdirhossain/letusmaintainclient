@@ -1,8 +1,7 @@
-
-import logo from "../assets/oterhs/logo (1).png"
+import logo from "../assets/oterhs/logo (1).png";
 import { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
-import "../style/dashboard.css"
+import { Link, useNavigate } from "react-router-dom";
+import "../style/dashboard.css";
 import Home from "../routes/Home";
 import Account from "../routes/Account";
 import Refrral from "../routes/Refrral";
@@ -10,15 +9,18 @@ import Commission from "../routes/Commission";
 import Payout from "../routes/Payout";
 import Support from "../routes/Support";
 import FAQ from "../routes/FAQ";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Messgae from "../routes/Messgae";
+import { logout } from "../featuers/userSlice";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
- 
+  const dispatch = useDispatch()
+
   const navigate = useNavigate();
 
   const handleSignUpClick = () => {
-    navigate('/');
+    navigate("/");
   };
   const [componentStates, setComponentStates] = useState({
     home: true,
@@ -39,6 +41,10 @@ const Dashboard = () => {
         .reduce((acc, key) => ({ ...acc, [key]: false }), {}),
     }));
   };
+  const handalelogout = ()=> {
+dispatch(logout())
+navigate("/");
+  }
   return (
     <>
       <nav class="    ">
@@ -76,22 +82,17 @@ const Dashboard = () => {
               </svg>
             </button>
           </div>
-          
 
           <Link to="/" class="flex items-center cursor-pointer">
-            <img
-              src={logo}
-              class=" mr-2  sizeimg"
-              alt=""
-            />
+            <img src={logo} class=" mr-2  sizeimg" alt="" />
           </Link>
 
-          
-          
-           <button class="hidden sm:block  text-white text-xl font-bold py-2 px-6"    onClick={handleSignUpClick}>
-  Logout
-</button>
-
+          <button
+            class=" sm:block  text-[#444] text-xl font-bold py-2 px-6"
+            onClick={handleSignUpClick}
+          >
+            Logout
+          </button>
         </div>
       </nav>
 
@@ -138,7 +139,7 @@ const Dashboard = () => {
           />
         </div>
         <h1 class="text-center text-3xl text-white mt-3 font-bold">
-        {user.name}
+          {user.name}
         </h1>
 
         <div class="py-4 overflow-y-auto">
@@ -233,10 +234,23 @@ const Dashboard = () => {
               </a>
             </li>
             <li>
-         <button class=" ml-3  sm:hidden flex items-center p-2 text-white" id="drawer-logout-btn"    onClick={handleSignUpClick}>
-        Logout
-      </button>
-      </li>
+              <a
+                href="#!"
+                class="flex items-center p-2 text-white"
+                onClick={() => handleClick("messgae")}
+              >
+                <span class="flex-1 ml-3 whitespace-nowrap">Message</span>
+              </a>
+            </li>
+            <li>
+              <button
+                class=" ml-3   flex items-center p-2 text-white"
+                id="drawer-logout-btn"
+                onClick={handalelogout}
+              >
+                Logout
+              </button>
+            </li>
           </ul>
         </div>
       </div>
@@ -248,6 +262,7 @@ const Dashboard = () => {
         {componentStates.payout && <Payout />}
         {componentStates.support && <Support />}
         {componentStates.faq && <FAQ />}
+        {componentStates.messgae && <Messgae />}
       </div>
     </>
   );

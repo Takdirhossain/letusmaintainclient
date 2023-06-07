@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
 function BankTransfer({user}) {
-console.log(user);
   const handalesubmit = e => {
     e.preventDefault()
     const accountHolderName = e.target.accountHolderName.value 

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/dashboard.css"
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../featuers/userSlice";
 import Swal from "sweetalert2";
 const Login = () => {
- 
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
   const [error, setError] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const Login = () => {
      .then(data => {
      
       dispatch(login(data))
-     if(data.user){
+     if(data){
       navigate('/dashboard')
      }else{
 
@@ -47,6 +48,12 @@ const Login = () => {
       'question'
     )
   }
+  useEffect(() => {
+    // If user is already logged in, redirect to the desired page
+    if (isLoggedIn) {
+      navigate('/dashboard');
+    }
+  }, [isLoggedIn, navigate]);
   return (
     <div class="bg-gradient-to-tr from-green-300 to-green-600 h-screen w-full flex justify-center items-center">
     <div class="bg-green-600 w-full sm:w-1/2 md:w-9/12 lg:w-1/2 shadow-md flex flex-col md:flex-row items-center mx-5 sm:m-0 rounded">

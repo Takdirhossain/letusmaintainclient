@@ -2,7 +2,7 @@ import React from "react";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
 
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Navigate, Route, RouterProvider, createBrowserRouter, useLocation } from "react-router-dom";
 import About from "./pages/About";
 import Management from "./pages/Management";
 import Priceing from "./pages/Priceing";
@@ -24,9 +24,20 @@ import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import { useSelector } from "react-redux";
 
+const Private = ({children}) => {
+  const isLoggedIn = useSelector((state) => state?.user?.user);
+  const location = useLocation()
+  
+
+  if (isLoggedIn) {
+      return children;
+  }
+  return <Navigate to="/login" state={{ from: location }} replace></Navigate>
+};
 
 
 const router = createBrowserRouter([
+  
   { path: "/", element: <Home /> },
   { path: "/blog", element: <Blogs /> },
   { path: "/blog/01", element: <SingleBlog /> },
@@ -46,11 +57,12 @@ const router = createBrowserRouter([
   { path: "/Enterprise", element: <Enterprise /> },
   { path: "/Individul", element: <Individul /> },
   { path: "/login", element: <Login /> },
-  {path:"/dashboard", element: <Dashboard/>}
+  { path: "/dashboard", element: <Private><Dashboard /></Private>, children: [
+    { path: "*", element: <Navigate to="/dashboard" /> }
+  ]},
 ]);
 const App = () => {
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  console.log(isLoggedIn);
+
   return <RouterProvider router={router} />;
 };
 

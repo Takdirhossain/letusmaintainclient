@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 const { createSlice } = require("@reduxjs/toolkit");
 
 export const useSlice = createSlice({
@@ -10,6 +12,7 @@ export const useSlice = createSlice({
     login: (state, action) => {
       state.user = action.payload;
       state.isLoggedIn = true;
+    
     },
     logout:(state, action)=> {
         state.user = null
